@@ -5,11 +5,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n/i18n-context';
 import { useTheme } from '@/hooks/use-theme';
 
 export default function AboutScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useI18n();
 
   return (
     <ThemedView style={styles.container}>
@@ -29,40 +31,38 @@ export default function AboutScreen() {
               size={40}
             />
           </View>
-          <ThemedText type="subtitle">WeLog Monitoring</ThemedText>
+          <ThemedText type="subtitle">{t('appName')}</ThemedText>
           <ThemedText themeColor="textSecondary" style={styles.tagline}>
-            Structural deflection tracking for bridges.
+            {t('aboutTagline')}
           </ThemedText>
         </ThemedView>
 
         <ThemedView style={styles.card}>
-          <ThemedText type="smallBold">How it works</ThemedText>
+          <ThemedText type="smallBold">{t('howItWorks')}</ThemedText>
           <ThemedText type="small" themeColor="textSecondary" style={styles.body}>
-            Inclinometers mounted along a bridge measure angular rotation. Combined, these
-            readings describe how the structure deflects under load. Enter each sensor&apos;s
-            angle in radians on the Monitor tab; a deflection curve will be plotted here soon.
+            {t('howItWorksBody')}
           </ThemedText>
         </ThemedView>
 
         <ThemedView style={styles.card}>
-          <ThemedText type="smallBold">Sensor limits</ThemedText>
+          <ThemedText type="smallBold">{t('sensorLimits')}</ThemedText>
           <View style={styles.row}>
             <ThemedText type="small" themeColor="textSecondary">
-              Minimum inclinometers
+              {t('minInclinometers')}
             </ThemedText>
             <ThemedText type="smallBold">2</ThemedText>
           </View>
           <View style={styles.row}>
             <ThemedText type="small" themeColor="textSecondary">
-              Maximum inclinometers
+              {t('maxInclinometers')}
             </ThemedText>
             <ThemedText type="smallBold">5</ThemedText>
           </View>
           <View style={styles.row}>
             <ThemedText type="small" themeColor="textSecondary">
-              Unit
+              {t('unit')}
             </ThemedText>
-            <ThemedText type="smallBold">radians</ThemedText>
+            <ThemedText type="smallBold">{t('radians')}</ThemedText>
           </View>
         </ThemedView>
       </View>

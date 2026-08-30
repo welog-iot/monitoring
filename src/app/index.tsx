@@ -7,23 +7,25 @@ import { InclinometerInput, InclinometerReading } from '@/components/inclinomete
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n/i18n-context';
 import { useTheme } from '@/hooks/use-theme';
 
 const MIN_SENSORS = 2;
 const MAX_SENSORS = 5;
 const GREEK = ['α', 'β', 'γ', 'δ', 'ε'];
 
-function makeReading(index: number): InclinometerReading {
-  return { id: `sensor-${index}-${Date.now()}`, label: `Sensor ${GREEK[index]}`, radians: '' };
+function makeReading(index: number, label: string): InclinometerReading {
+  return { id: `sensor-${index}-${Date.now()}`, label, radians: '' };
 }
 
 export default function MonitorScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useI18n();
 
   const [readings, setReadings] = useState<InclinometerReading[]>(() => [
-    makeReading(0),
-    makeReading(1),
+    makeReading(0, t('sensorLabel', { greek: GREEK[0] })),
+    makeReading(1, t('sensorLabel', { greek: GREEK[1] })),
   ]);
 
   const canAdd = readings.length < MAX_SENSORS;
@@ -31,7 +33,10 @@ export default function MonitorScreen() {
 
   const addSensor = () => {
     if (!canAdd) return;
-    setReadings((prev) => [...prev, makeReading(prev.length)]);
+    setReadings((prev) => [
+      ...prev,
+      makeReading(prev.length, t('sensorLabel', { greek: GREEK[prev.length] })),
+    ]);
   };
 
   const removeSensor = (id: string) => {
@@ -57,15 +62,15 @@ export default function MonitorScreen() {
       ]}>
       <ThemedView style={styles.inner}>
         <ThemedView style={styles.header}>
-          <ThemedText type="subtitle">Bridge Deflection</ThemedText>
+          <ThemedText type="subtitle">{t('bridgeDeflection')}</ThemedText>
           <ThemedText themeColor="textSecondary" style={styles.subtitle}>
-            Enter inclinometer readings (radians) to visualize bridge deflection.
+            {t('monitorSubtitle')}
           </ThemedText>
         </ThemedView>
 
         <ThemedView style={styles.card}>
           <View style={styles.cardHeader}>
-            <ThemedText type="smallBold">Inclinometers</ThemedText>
+            <ThemedText type="smallBold">{t('inclinometers')}</ThemedText>
             <ThemedText type="small" themeColor="textSecondary">
               {readings.length}/{MAX_SENSORS}
             </ThemedText>
@@ -93,21 +98,21 @@ export default function MonitorScreen() {
                 size={16}
               />
               <ThemedText type="small" style={{ color: theme.accent }}>
-                Add inclinometer
+                {t('addInclinometer')}
               </ThemedText>
             </Pressable>
           ) : (
             <ThemedText type="small" themeColor="textSecondary" style={styles.maxNote}>
-              Maximum of {MAX_SENSORS} inclinometers reached.
+              {t('maxReached', { max: MAX_SENSORS })}
             </ThemedText>
           )}
         </ThemedView>
 
         <ThemedView style={styles.card}>
           <View style={styles.cardHeader}>
-            <ThemedText type="smallBold">Deflection Graph</ThemedText>
+            <ThemedText type="smallBold">{t('deflectionGraph')}</ThemedText>
             <ThemedText type="small" themeColor="textSecondary">
-              {validCount} active
+              {t('activeCount', { count: validCount })}
             </ThemedText>
           </View>
 
@@ -122,11 +127,10 @@ export default function MonitorScreen() {
               size={48}
             />
             <ThemedText type="small" themeColor="textSecondary" style={styles.placeholderText}>
-              Graph coming soon
+              {t('graphComingSoon')}
             </ThemedText>
             <ThemedText type="small" themeColor="textSecondary" style={styles.placeholderSubtext}>
-              The deflection curve measured by your {readings.length} inclinometer
-              {readings.length === 1 ? '' : 's'} will appear here.
+              {t('graphSubtext', { count: readings.length })}
             </ThemedText>
           </View>
         </ThemedView>

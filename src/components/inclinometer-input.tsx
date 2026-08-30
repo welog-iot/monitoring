@@ -4,6 +4,7 @@ import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
+import { useI18n } from '@/i18n/i18n-context';
 import { useTheme } from '@/hooks/use-theme';
 
 export type InclinometerReading = {
@@ -21,6 +22,7 @@ type InclinometerInputProps = {
 
 export function InclinometerInput({ reading, index, onChange, onRemove }: InclinometerInputProps) {
   const theme = useTheme();
+  const { t } = useI18n();
   const [focused, setFocused] = useState(false);
 
   return (
@@ -36,7 +38,7 @@ export function InclinometerInput({ reading, index, onChange, onRemove }: Inclin
           style={({ pressed }) => [styles.removeButton, pressed && styles.pressed]}
           onPress={onRemove}>
           <ThemedText type="small" themeColor="textSecondary">
-            Remove
+            {t('remove')}
           </ThemedText>
         </Pressable>
       </View>
@@ -55,7 +57,7 @@ export function InclinometerInput({ reading, index, onChange, onRemove }: Inclin
           style={styles.input(theme, focused)}
         />
         <ThemedText type="small" themeColor="textSecondary" style={styles.unit}>
-          rad
+          {t('unitRad')}
         </ThemedText>
       </View>
     </ThemedView>
