@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useI18n } from '@/i18n/i18n-context';
 import { useTheme } from '@/hooks/use-theme';
@@ -35,6 +36,7 @@ export default function AboutScreen() {
           <ThemedText themeColor="textSecondary" style={styles.tagline}>
             {t('aboutTagline')}
           </ThemedText>
+          <LanguageSwitcher />
         </ThemedView>
 
         <ThemedView style={styles.card}>

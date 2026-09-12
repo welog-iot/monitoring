@@ -41,6 +41,8 @@ export const translations = {
     // Brand / docs
     brand: 'WeLog',
     docs: 'Docs',
+    languageItalian: 'Italiano',
+    languageEnglish: 'English',
   },
   en: {
     tabMonitor: 'Monitor',
@@ -71,6 +73,8 @@ export const translations = {
     radians: 'radians',
     brand: 'WeLog',
     docs: 'Docs',
+    languageItalian: 'Italian',
+    languageEnglish: 'English',
   },
 } as const;
 

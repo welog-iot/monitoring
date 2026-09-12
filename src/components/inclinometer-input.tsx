@@ -9,18 +9,17 @@ import { useTheme } from '@/hooks/use-theme';
 
 export type InclinometerReading = {
   id: string;
-  label: string;
   radians: string;
 };
 
 type InclinometerInputProps = {
   reading: InclinometerReading;
-  index: number;
+  label: string;
   onChange: (radians: string) => void;
   onRemove: () => void;
 };
 
-export function InclinometerInput({ reading, index, onChange, onRemove }: InclinometerInputProps) {
+export function InclinometerInput({ reading, label, onChange, onRemove }: InclinometerInputProps) {
   const theme = useTheme();
   const { t } = useI18n();
   const [focused, setFocused] = useState(false);
@@ -30,7 +29,7 @@ export function InclinometerInput({ reading, index, onChange, onRemove }: Inclin
       <View style={styles.headerRow}>
         <View style={styles.labelBadge(theme.accent, theme.accentSoft)}>
           <ThemedText type="smallBold" style={styles.labelText}>
-            {reading.label}
+            {label}
           </ThemedText>
         </View>
         <Pressable

@@ -4,6 +4,7 @@ import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { InclinometerInput, InclinometerReading } from '@/components/inclinometer-input';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
@@ -14,8 +15,8 @@ const MIN_SENSORS = 2;
 const MAX_SENSORS = 5;
 const GREEK = ['α', 'β', 'γ', 'δ', 'ε'];
 
-function makeReading(index: number, label: string): InclinometerReading {
-  return { id: `sensor-${index}-${Date.now()}`, label, radians: '' };
+function makeReading(index: number): InclinometerReading {
+  return { id: `sensor-${index}-${Date.now()}`, radians: '' };
 }
 
 export default function MonitorScreen() {
@@ -24,8 +25,8 @@ export default function MonitorScreen() {
   const { t } = useI18n();
 
   const [readings, setReadings] = useState<InclinometerReading[]>(() => [
-    makeReading(0, t('sensorLabel', { greek: GREEK[0] })),
-    makeReading(1, t('sensorLabel', { greek: GREEK[1] })),
+    makeReading(0),
+    makeReading(1),
   ]);
 
   const canAdd = readings.length < MAX_SENSORS;
@@ -35,7 +36,7 @@ export default function MonitorScreen() {
     if (!canAdd) return;
     setReadings((prev) => [
       ...prev,
-      makeReading(prev.length, t('sensorLabel', { greek: GREEK[prev.length] })),
+      makeReading(prev.length),
     ]);
   };
 
@@ -66,6 +67,7 @@ export default function MonitorScreen() {
           <ThemedText themeColor="textSecondary" style={styles.subtitle}>
             {t('monitorSubtitle')}
           </ThemedText>
+          <LanguageSwitcher />
         </ThemedView>
 
         <ThemedView style={styles.card}>
@@ -81,7 +83,7 @@ export default function MonitorScreen() {
               <InclinometerInput
                 key={reading.id}
                 reading={reading}
-                index={index}
+                label={t('sensorLabel', { greek: GREEK[index] })}
                 onChange={(value) => updateRadians(reading.id, value)}
                 onRemove={() => removeSensor(reading.id)}
               />
